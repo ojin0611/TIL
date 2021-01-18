@@ -1,0 +1,79 @@
+# 객체지향
+
+## 추상화
+
+## 상속
+
+## 다형성
+
+## 클래스
+
+### 생성자
+
+![Untitled%201.png](oop.assets/Untitled%201.png)
+
+### 인스턴스 메소드
+
+### 인스턴스 변수
+
+self.varname
+
+접근 제한
+
+![oop.assets/Untitled%202.png](oop.assets/Untitled%202.png)
+
+### 데코레이터
+
+@property 를 이용해 getter,setter 등 역할 가능
+
+![oop.assets/Untitled%203.png](oop.assets/Untitled%203.png)
+
+![oop.assets/Untitled%204.png](oop.assets/Untitled%204.png)
+
+![oop.assets/Untitled%205.png](oop.assets/Untitled%205.png)
+
+### 클래스 변수
+
+클래스명.변수 형식으로 선언된 변수
+
+```python
+class Person:
+	age = 20
+	...
+
+print(Person.age)
+```
+
+### 클래스 메소드
+
+@classmethod 
+
+cls
+
+![oop.assets/Untitled%206.png](oop.assets/Untitled%206.png)
+
+![Python%20Grammar%204d21b8a2780444c398c8aba8267c0f5a/Untitled%207.png](Python%20Grammar%204d21b8a2780444c398c8aba8267c0f5a/Untitled%207.png)
+
+### 오버로딩
+
+비교연산자 오버로딩
+
+![oop.assets/Untitled%208.png](oop.assets/Untitled%208.png)
+
+![oop.assets/Untitled%209.png](oop.assets/Untitled%209.png)
+
+이외에도 `__str()__`  를 오버로딩할 수 있다.
+
+## 클래스 상속
+
+![oop.assets/Untitled%2010.png](oop.assets/Untitled%2010.png)
+
+![oop.assets/Untitled%2011.png](oop.assets/Untitled%2011.png)
+
+### 메서드 오버라이딩
+
+## 실습
+
+`__repr__`, `__str__` 둘 다 같은 역할
+
+![oop.assets/Untitled%2012.png](oop.assets/Untitled%2012.png)
