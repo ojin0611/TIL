@@ -52,7 +52,7 @@ cls
 
 ![oop.assets/Untitled%206.png](oop.assets/Untitled%206.png)
 
-![Python%20Grammar%204d21b8a2780444c398c8aba8267c0f5a/Untitled%207.png](Python%20Grammar%204d21b8a2780444c398c8aba8267c0f5a/Untitled%207.png)
+![oop.assets/Untitled%207.png](oop.assets/Untitled%207.png)
 
 ### 오버로딩
 
