@@ -99,7 +99,7 @@ print("closure2:", closure2(4))
 
 ### Scoping rule
 
-![scoping_rule.png](function.assets/scoping_rule.png)
+![scoping_rule.png](images/scoping_rule.png)
 
 Local, Enclosed, Global, Built-in
 
