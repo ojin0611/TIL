@@ -97,8 +97,36 @@ print("closure2:", closure2(4))
 # closure2: 6
 ```
 
-### Scoping rule
+## 스코프(scope)
 
+함수는 코드 내부에 공간(scope)를 생성합니다. 함수로 생성된 공간은 `지역 스코프(local scope)`라고 불리며, 그 외의 공간인 `전역 스코프(global scope)`와 구분됩니다.
+
+* **전역 스코프(`global scope`)**: 코드 어디에서든 참조할 수 있는 공간
+* **지역 스코프(`local scope`)**: 함수가 만든 스코프로 함수 내부에서만 참조할 수 있는 공간
+
+
+* **전역 변수(`global variable`)**: 전역 스코프에 정의된 변수
+* **지역 변수(`local variable`)**: 로컬 스코프에 정의된 변수
+
+
+### 이름 검색(resolution) 규칙
+
+파이썬에서 사용되는 이름(식별자)들은 이름공간(namespace)에 저장되어 있습니다.
+
+이것을, `LEGB Rule` 이라고 부르며, 아래와 같은 순서로 이름을 찾아나갑니다.
+
+* `L`ocal scope: 정의된 함수
+
+
+* `E`nclosed scope: 상위 함수 
+
+
+* `G`lobal scope: 함수 밖의 변수 혹은 import된 모듈
+
+
+* `B`uilt-in scope: 파이썬안에 내장되어 있는 함수 또는 속성
+
+### Scoping rule
 ![scoping_rule.png](images/scoping_rule.png)
 
 Local, Enclosed, Global, Built-in
@@ -120,4 +148,78 @@ def outer():
 		print(a, b, c)
 	inner()
 
+```
+
+### 변수의 수명주기(lifecycle)
+
+변수의 이름은 각자의 `수명주기(lifecycle)`가 있습니다.
+
+* **빌트인 스코프`(built-in scope)`**: 파이썬이 실행된 이후부터 영원히 유지
+
+
+* **전역 스코프`(global scope)`**: 모듈이 호출된 시점 이후 혹은 이름 선언된 이후부터 인터프리터가 끝날때 까지 유지
+
+
+* **지역(함수) 스코프`(local scope)`**: 함수가 호출될 때 생성되고, 함수가 가 종료될 때까지 유지 (함수 내에서 처리되지 않는 예외를 일으킬 때 삭제됨)
+
+
+
+
+
+
+
+## 가변 인자
+
+### 가변(임의) 인자 리스트(Arbitrary Argument Lists)
+
+앞서 설명한 `print()`처럼 개수가 정해지지 않은 임의의 인자를 받기 위해서는 가변 인자 리스트`*args`를 활용합니다. 
+
+가변 인자 리스트는 `tuple` 형태로 처리가 되며, 매개변수에 `*`로 표현합니다. 
+
+---
+
+**활용법**
+
+```python
+def func(a, b, *args):
+```
+> `*args` : 임의의 개수의 위치인자를 받음을 의미
+> 
+> 보통, 이 가변 인자 리스트는 매개변수 목록의 마지막에 옵니다.
+
+### 가변(임의) 키워드 인자(Arbitrary Keyword Arguments)
+
+정해지지 않은 키워드 인자들은 **`dict`** 형태로 처리가 되며, `**`로 표현합니다. 
+
+보통 `kwagrs`라는 이름을 사용하며, `**kwargs`를 통해 인자를 받아 처리할 수 있습니다.
+
+---
+
+**활용법**
+
+```python
+def func(**kwargs):
+```
+> `**kwargs` : 임의의 개수의 키워드 인자를 받음을 의미
+
+
+dictionary 클래스를 만들 때 사용하는 dict() 함수가 아래와 같이 구성돼있다. 
+```python
+class dict(**kwarg):
+class dict(mapping, **kwarg):
+class dict(iterable, **kwarg):
+
+```
+
+따라서 딕셔너리 생성을 아래와 같이 할 수 있다.
+
+```python
+dict(name='홍길동', age='1000')
+
+# 주의사항
+# 식별자는 숫자만으로는 이루어질 수가 없다.(키워드인자로 넘기면 함수 안에서 식별자로 쓰이기 때문)
+dict(1='1', 2='2')
+
+# 위의 경우 다음과 같이 사용해야 한다.
+dict(((1, 1), (2, 1)))
 ```
