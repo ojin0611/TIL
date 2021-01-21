@@ -33,6 +33,27 @@ False, None, True, and, as, assert, async, await, break, class, continue, def, d
 
 int, float, complex가 있다.
 
+
+
+### complex
+
+```python
+x = 3 + 4j
+
+# 숫자 접근
+x.real # 3
+x.imag # 4
+
+# 자료형 체크
+isinstance(x, complex) # True
+type(x) is complex # True
+
+# 복소수 크기(절댓값)는 복소 평면에 플로팅된 원점에서 복소수 값까지의 벡터 길이
+abs(x) # 5
+```
+
+
+
 **파이썬에서 표현할 수 있는 가장 큰 수**
 * 파이썬에서 가장 큰 숫자를 활용하기 위해 sys 모듈을 불러온다.
 
