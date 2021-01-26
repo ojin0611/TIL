@@ -203,7 +203,7 @@ abs(x) # 5
 |x `in` s	|containment test|
 |x `not in` s|containment test|
 |s1 `+` s2|concatenation|
-|s `*` n|n번만큼 반복하여 더하기
+|s `*` n|n번만큼 반복하여 더하기|
 |`s[i]`|indexing|
 |`s[i:j]`|slicing|
 |`s[i:j:k`]|k간격으로 slicing|
