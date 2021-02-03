@@ -1,3 +1,7 @@
+[TOC]
+
+
+
 # CSS
 
 > Cascading Style Sheet
@@ -247,3 +251,86 @@ position이 relative, absolute, fixed인 부모가 없으면 body의 기준으�
 ## fixed 
 
 고정 위치. 브라우저의 viewport를 기준으로 좌표속성만큼 이동. 스크롤에 영향을 받지 않는다.
+
+
+
+# Flexbox
+
+> Flexible Box
+
+```css
+display: flex;
+```
+
+Container와 Items에 적용하는 속성이 구분되어 있다.
+Container에는 `display`, `flex-flow`, `justify-content` 등의 속성을 사용할 수 있으며,
+Items에는 `order`, `flex`, `align-self` 등의 속성을 사용할 수 있다.
+
+
+
+## main-axis, cross-axis
+
+값 `row`는 Items를 수평축으로 표시하므로 이때는 주 축이 수평이며 교차 축은 수직이 된다.
+반대로 값 `column`은 Items를 수직축으로 표시하므로 주 축은 수직이며 교차 축은 수평이 된다.
+
+
+
+## justify-content
+
+한 줄 안에서 요소들을 어디에 놓을지 정한다. 왼쪽 정렬, 오른쪽 정렬, 중앙 정렬, 적당히 띄우기
+
+flex-start : flexbox가 시작되는 곳에 정렬해!
+
+> flex-start, flex-end, flex-center, space-around, space-between
+
+
+
+## align-items
+
+`justify-content` 의 수직 방향.
+
+> flex-start, flex-end, center, baseline, stretch
+
+### align-self
+
+혼자만 움직인다.
+
+
+
+
+
+## flex-direction
+
+main 축을 row로 삼을지 (default), column으로 삼을지 결정한다. Flex의 방향이 column일 경우 `justify-content`의 방향이 세로로, `align-items`의 뱡향이 가로로 바뀐다.
+
+> row, row-reverse, column, column-reverse
+
+
+
+## order
+
+요소들의 순서. default=0이고, 양수나 음수로 바꿀 수 있다. 모든 요소의 default=1이기때문에, 하나만 양수로 바꾸면 그 요소가 맨 뒤로 간다.
+
+
+
+## flex-wrap
+
+
+
+nowrap (모든 요소를 한 줄에 정렬), wrap(여러 줄), wrap-reverse(여러 줄, 반대로)
+
+
+
+## flex-flow
+
+flex-direction, flex-wrap을 함께 사용한다.
+
+row wrap, column nowrap
+
+
+
+## align-content
+
+여러 줄 사이의 간격을 지정할 수 있다. flex-direction이 row(default)인 경우, 윗줄과 아랫줄의 간격을 정한다. 
+
+flex-start, flex-end, center, space-between, space-around, stretch
