@@ -23,3 +23,23 @@ while ((nextNode = currNode.link) != null) { // nextNode = currNode가 가리키
 
 ```
 
+
+
+## 파일 내에 클래스 여러개 정의
+
+ 
+
+
+
+## 클래스 비교
+
+### compareTo
+
+comparable interface를 implements해준다.
+
+
+
+>  이외에도 2가지 더 있다.
+
+
+
