@@ -1,4 +1,6 @@
+[TOC]
 
+# 문장
 
 ## 대입 연산자의 리턴값
 
@@ -25,21 +27,54 @@ while ((nextNode = currNode.link) != null) { // nextNode = currNode가 가리키
 
 
 
-## 파일 내에 클래스 여러개 정의
+# Class
 
- 
-
-
-
-## 클래스 비교
-
-### compareTo
-
-comparable interface를 implements해준다.
+## 하나의 자바 파일 내에 여러 개의 클래스 정의
 
 
 
->  이외에도 2가지 더 있다.
+## Inner Class
 
 
 
+# 제어자
+
+## 접근 제어자
+
+public
+
+protected
+
+default
+
+private
+
+## 그 외 제어자
+
+static
+
+final
+
+abstract
+
+synchronized
+
+
+
+# Singleton Pattern
+
+
+
+# Lambda
+
+
+
+# Serializable
+
+
+
+# Exception
+
+
+
+# 
