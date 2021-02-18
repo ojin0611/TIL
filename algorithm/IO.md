@@ -1,3 +1,13 @@
+# 요약
+
+input text를 빠르게 읽기 위해 `BufferedReader` class를 이용한다.
+
+input text를 tokenize하기 위해 `StringTokenizer`를 이용한다.
+
+String에 추가/삭제 등 연산을 자주할 때 `StringBuilder` class를 이용한다.
+
+출력을 빠르게 하기 위해 `BufferedWriter` class를 이용한다. 
+
 
 
 # BufferedReader
