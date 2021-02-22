@@ -1,4 +1,19 @@
-[TOC]
+# Table of Contents
+
+- [Operator](#operator)
+- [JVM and Memory](#jvm-and-memory)
+- [String](#string)
+- [Class](#class)
+- [Polymorphism](#polymorphism)
+- [this](#this)
+- [Serialize](#serialize)
+- [Lambda](#lambda)
+- [Stream](#stream)
+- [Singleton Pattern](#singleton-pattern)
+- [Exception](#exception)
+- [Thread](#Thread)
+
+
 
 # Operator
 
@@ -84,7 +99,9 @@ class Test {
 
 `String`은 불변(immutable)의 속성을 가진다. 때문에, String 클래스로 저장한 문자열에 문자열을 추가하면 새로운 String 인스턴스 생성하고, 처음에 선언했던 문자열은 GC에 의해 사라진다. 
 
-반면 `StringBuffer`, `StringBuilder`는 가변(mutable) 속성을 가지기때문에 동일 객체 내에서 문자열을 변경하는 것이 가능하다.  `StringBuffer`는 동기화를 지원하여 멀티쓰레드 환경에서 안전하다(thread-safe). String도 불변성을 갖기때문에 thread-safe하다. 반면 `StringBuilder`는 멀티쓰레드 환경에서 사용하는것은 적합하지 않다. 하지만 단일쓰레드에서의 성능은 StringBuffer보다 뛰어나다.
+반면 `StringBuffer`, `StringBuilder`는 가변(mutable) 속성을 가지기때문에 동일 객체 내에서 문자열을 변경하는 것이 가능하다.  `StringBuffer`는 동기화를 지원하여 멀티쓰레드 환경에서 안전하다(thread-safe). String도 불변성을 갖기때문에 thread-safe하다. 반면 `StringBuilder`는 멀티쓰레드 환경에서 사용하는것은 적합하지 않다. 하지만 단일쓰레드에서의 성능은 `StringBuffer`보다 뛰어나다.
+
+`StringBuilder`의 뒤에 문자열을 추가하려면 `append(s)`, 앞에 추가하려면 `insert(0, s)`를 이용한다.
 
 
 
@@ -579,3 +596,91 @@ class NotAlphabet extends Exception{
 }
 ```
 
+
+
+# Thread
+
+Java의 Thread는 Concurrent Programming 방법 중 하나다. 
+
+> Concurrent(병행) : 둘 이상의 일을 한꺼번에 행함. Multi-thread Programming
+>
+> Parallel(병렬) : 나란히 늘어섬. Multi-core
+
+
+
+Thread를 사용하는 방법에는 2가지가 있다.
+
+1. `extends Thread`
+
+   `Thread`를 상속받은 클래스로 객체를 생성하면 쓰레드 객체가 된다. `start()`하면 `run()` 메소드를 실행한다.
+
+2. `implements Runnable` -> @Override `run()`
+
+   `Runnable`을 구현한 객체를 `Thread` 클래스 생성자의 parameter로 전달한다. 생성된 쓰레드 객체로 `start()`한다.
+
+
+
+자바 파일 실행 시 main 함수를 실행하는데, 이 때 **Main Thread**가 생성되어 시작되는 것이다. 즉, 지금까지 단일 쓰레드를 이용해왔던 것이다. 만약 다중 스레드 환경이라면, main 스레드가 종료되더라도 다른 thread가 종료될때 까지 JVM이 실행된다.
+
+
+
+Daemon thread를 설정하고싶으면 Thread 객체의 setDaemon(true) 메소드를 이용한다. 이렇게되면 쓰레드 객체가 보조 스레드인 데몬쓰레드로 설정된다.
+
+
+
+## 쓰레드의 상태
+
+![image-20210222203737339](images/image-20210222203737339.png)
+
+Thread 객체는 start() 호출이 된다고 바로 실행되는 것은 아니다. 전체 쓰레드는 다양한 상태로 존재하고, JVM은 이 상태를 이용해 전체 Thread의 실행을 제어한다.
+
+
+
+## 쓰레드의 활동 제어
+
+### sleep()
+
+sleep()은 static method로, `Thread.sleep(time)` 형태로 불러온다. 현재 스레드를 0.001 * time 초만큼 실행중지시킨다. 시간이 지나면 다시 Runnable 상태가 되어 바로 실행된다.
+
+반드시 InterruptedException을 예외처리 해줘야한다. 
+
+### join()
+
+해당 쓰레드의 실행이 끝날때까지 다른 쓰레드를 대기시킬 때 사용한다.
+
+```java
+ob1.start();
+try {
+ ob1.join();   // ob1이 끝날때까지 ob2, ob3는 대기
+} catch (InterruptedException e) {
+ e.printStackTrace();
+}
+ob2.start();
+ob3.start();
+```
+
+### interrupt()
+
+쓰레드를 종료시키기 위해 InterruptedException을 발생시킨다. 또는 대기 풀에 있는 Thread 객체를 다시 runnable 상태로 이동시킨다. `th.interrupt()`
+
+### yield()
+
+`Thread.yield()`는 static method로, running중인 쓰레드를 호출하여 runnable 상태인 다른 쓰레드에게 수행을 양보한다. Wait 상태로 가지 않고 runnable 상태로 이동하여 언제든 다시 경쟁을 이기고 running 상태가 되면 yield() **호출 이후**의 코드를 이어서 수행한다.
+
+
+
+## 공유하는 자원
+
+여러 Thread들이 공유하는 자원에 대한 관리를 위해 Thread 동기화를 사용한다
+
+### synchronized()
+
+A 쓰레드가 공유자원 r에 접근하는 도중 B 쓰레드가 같은 자원에 접근할 때 문제가 생기는 경우가 있기때문에 A가 job을 수행하는 경우 다른 쓰레드의 접근을 제한해야한다. (ex. 잔액 확인 후 출금)
+
+사용방법은 2가지로, 공유자원을 사용하는 **Method** 자체를 synchronized 하는 경우와 Method 내 특정 블럭(또는 자원 객체)을 synchronized 처리하는 경우다.
+
+### wait(), notify()
+
+synchronized로 독점하고있던 공유자원을 반납하기 위해 사용하는 메소드들이다. (deadlock 방지) 두 메소드는 상호보완적인 구조다.
+
+`wait()` 을 사용하면, 공유자원(lock)을 갖고 있던 쓰레드가 lock을 반환하고 대기 POOL로 간다. `notify()` 메소드를 사용하면 waiting pool에서 대기중인 다른 쓰레드에게 공유자원이 준비되어있음을 알린다. `notifyAll()`은 전체에게, `notify()`는 (임의로) 1개에게 알린다.
