@@ -13,6 +13,8 @@
 - [Exception](#exception)
 - [Thread](#Thread)
 
+- [Network](#Network)
+
 
 
 # Operator
@@ -684,3 +686,92 @@ A 쓰레드가 공유자원 r에 접근하는 도중 B 쓰레드가 같은 자�
 synchronized로 독점하고있던 공유자원을 반납하기 위해 사용하는 메소드들이다. (deadlock 방지) 두 메소드는 상호보완적인 구조다.
 
 `wait()` 을 사용하면, 공유자원(lock)을 갖고 있던 쓰레드가 lock을 반환하고 대기 POOL로 간다. `notify()` 메소드를 사용하면 waiting pool에서 대기중인 다른 쓰레드에게 공유자원이 준비되어있음을 알린다. `notifyAll()`은 전체에게, `notify()`는 (임의로) 1개에게 알린다.
+
+
+
+# Network
+
+## IP 
+
+컴퓨터 간 통신을 위해 TCP/IP 프로토콜이 가장 많이 사용되고 있다. IP를 통해 다른 컴퓨터의 주소를 알 수 있고, 인터넷은 IP 대신 도메인(Domain)이라는 개념을 도입하여 서비스하고 있다. 
+
+
+
+```java
+InetAddress[] ias = InetAddress.getALLByName("naver.com");
+for (InetAddress addr : ias) addr.getHostAddress(); // IP for naver.com
+
+InetAddress localhost = InetAddress.getLocalHost(); // IP for localhost
+```
+
+
+
+## Socket
+
+Port를 통해 다른 컴퓨터(호스트)의 특정 프로세스를 찾아갈 수 있다. 이 Port를 담당하는 프로그램 모듈을 Socket이라고 한다. 서버는 `ServerSocket`으로 소켓을 만들고, 클라이언트가 접속하면 `accept()` 호출되면서 Socket 객체를 전달해준다. 소켓 생성 시 포트 번호가 필요하다.
+
+```java
+ServerSocket serverSocket = new ServerSocket(port);
+while(true)
+{
+    Socket socket = serverSocket.accept(); 
+    // 클라이언트가 신호 보낼때까지 대기. 다음코드 실행안하고 기다린다.
+    OutputStream output = socket.getOutputStream();   
+}
+```
+
+클라이언트는 소켓 생성 시 서버의 IP address와 Port 번호가 필요하다. 서버에 접속되면 `socket` 객체로부터 IO stream을 얻어 통신한다. 두 소켓이 서로 통신한다.
+
+```java
+Socket socket = new Socket(host, port);
+InputStream input = socket.getInputStream();
+BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+```
+
+클라이언트가 여러 개일 때, 쓰레드를 이용해 소켓을 여러 개 만든다. 추후에는 쓰레드 목록을 List로 관리한다. 만약 쓰레드 목록을 `ArrayList`로 관리할 경우 Thread-safe하지 않으므로, `synchronized` 를 걸거나 `Vector`를 사용한다.
+
+```java
+while (true) {
+    Socket socket = serverSocket.accept();
+    NetworkThread thread = new NetworkThread(socket);
+    thread.start();
+}
+```
+
+
+
+# XML
+
+XML(eXtensible Markup Language)은 미리 정의된 tag도 없고, 표현에 의존적이지 않다. XML은 다음의 문법을 잘 따랐을 때 **Well formed**하다고 한다.
+
+- Root element & Tree 구조
+- 시작 및 종료 tag 존재 & 일치
+- 대소문자 구별
+- 주석은 `<!-- -->`
+- white space 보존
+
+XML은 tag와 namespace가 존재한다. 이 유효값을 별도의 문서로 구성한 후 명시적으로 지정해줘야 XML문서가 **Valid**해지는데, 이 때 필요한 파일을 **DTD**(Document Type Definition)라고 한다.
+
+
+
+## XML Parser
+
+xml에 사용된 tag를 구별하고 그 안에 있는 값들을 읽는 방법에는 2가지 방법이 있다. 문서를 한 번 쭉 읽으면서 tag의 발생별로 처리하는 방법(**SAX**)이 있고, 문서 구조 전체를 자료구조에 저장하여 탐색하면서 처리하는 방법(**DOM**)도 있다. SAX는 빠르고 DOM은 다양한 탐색을 가능하게 한다.
+
+
+
+### SAX
+
+SAX Parser는 tag를 만나면 실행되는 event 기반의 처리방식을 사용하므로 별도의 Handler를 둔다. 즉, XML 문서를 읽고 그것을 Handler를 통해 처리한다.
+
+- Handler는 `DefaultHandler` class를 상속받는다. 
+- `startElement()`는 시작 tag를 만나면 호출된다. 
+- `endElement()`는 종료 tag를 만나면 호출된다. 
+- `characters()` 는 tag 안의 text value를 만나면 호출된다. 미리 준비해둔 StringBuilder 객체에 전달되는 text value를 저장한다.
+
+
+
+## UI
+
+클라이언트의 UI를 위해 Java의 awt, Swing 같은 Library를 사용한다.
+
