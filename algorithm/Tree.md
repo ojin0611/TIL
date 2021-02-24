@@ -31,6 +31,60 @@
 
 
 
+## 구현
+
+```java
+// input : Object data, left_data, right_data
+// for (something) makeNode(a,b,c);
+
+class Node {
+	Object data;
+	Node left;
+	Node right;
+	
+    // data를 가진 Node 생성
+	Node(Object data){
+		this.data = data;
+	} 
+}
+
+class Tree {
+	Node root;
+	
+	void makeNode(Object data, Object left, Object right){
+		// root 없으면 root 생성
+		if (root==null) {
+			root = new Node(data);
+			// 좌,우에 left, right 생성
+			if (left !='.') root.left = new Node(left);
+			if (right!='.') root.right= new Node(right);
+		}
+		else {
+			// data를 값으로 갖는 node를 찾아 left, right를 넣어주자
+			searchNode(root, data, left, right);
+		}
+	}
+	
+	void searchNode(Node node, Object data, Object left, Object right) {
+		// 더이상 자식노드가 없다면 찾기 중단
+		if (node==null) return;
+		
+		// 찾았을 때
+		else if (node.data == data) {
+			if (left !='.') node.left = new Node(left);
+			if (right!='.') node.right= new Node(right);
+		}
+		else {
+			// 시작 노드의 좌우를 찾기
+			searchNode(node.left, data, left, right);
+			searchNode(node.right, data, left, right);
+		}
+	}
+}
+```
+
+
+
 
 
 
