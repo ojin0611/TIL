@@ -14,15 +14,19 @@
 
 ## CSS 구문
 
-- 선택자와 함께 열린다.
+- **선택자**(selector)와 함께 열린다.
 - 스타일을 지정할 html 요소 선택
-- 중괄호에 속성:값 쌍의 형태 선언
+- 중괄호`{}`에 속성:값 쌍의 형태 **선언**(declaration)
 
-속성(Property) : 글꼴, 너비, 배경색 등 변경할 스타일 기능
+**속성**(Property) : 글꼴, 너비, 배경색 등 변경할 스타일 기능
 
-값(Value) : 어떻게 변경할지
+**값**(Value) : 어떻게 변경할지
 
 ```css
+selector {
+	property: value;    
+}
+
 .big-box {
   position: relative;
   margin: 100px auto 500px;
@@ -59,6 +63,16 @@
 
 
 
+## 선택자 적용 우선순위
+
+`!important` > inline style > id 선택자 > class 선택자 > 요소 선택자(h1, p) > 소스 순서
+
+
+
+---
+
+
+
 ## 결합자
 
 자손 결합자 (`A 공백 B `) : A의 모든 후손 요소(level n) 중 B와 일치하는 요소
@@ -71,9 +85,23 @@
 
 
 
-## 선택자 적용 우선순위
+## 가상 클래스 선택자
 
-`!important` > inline style > id 선택자 > class 선택자 > 요소 선택자(h1, p) > 소스 순서
+![image-20210302153054158](images/image-20210302153054158.png) 
+
+
+
+## 가상 엘리먼트 선택자
+
+![image-20210302153114243](images/image-20210302153114243.png) 
+
+
+
+## 속성 선택자
+
+![image-20210302153145957](images/image-20210302153145957.png) 
+
+
 
 # CSS 단위
 
