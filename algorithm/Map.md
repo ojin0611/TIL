@@ -42,6 +42,12 @@ map.remove(3);
 
 전체를 출력하려면 entrySet()이나 keySet() 메소드를 활용하여 Map의 객체를 반환받은 후 사용하는 것이 더 빠르다. key로 value를 찾는 과정에서 시간이 많이 소모되기때문이다.
 
+```java
+for(Entry<String, Integer> entry: map.entrySet()) {
+    sb.append(entry.getKey()+String.format(" %.4f\n", 100*entry.getValue()/cnt));
+}
+```
+
 
 
 ### HashTable
