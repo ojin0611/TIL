@@ -87,6 +87,18 @@ class Test {
 
 # String
 
+## String.format()
+
+System.out.printf() 에서처럼 문자열에 formatting을 주고싶을 때 사용하는 메소드다. 
+
+```java
+String.format(" %.4f\n", 100*entry.getValue()/cnt) // 소수점 4자리까지 나오는 실수
+```
+
+
+
+
+
 ## String, StringBuffer, StringBuilder
 
 위의 3가지 클래스를 언제 사용하는지 정리하면 다음과 같다.
