@@ -105,12 +105,17 @@ Union(x,y)
 
 ```java
 static boolean union(int a,int b) {
-    int aRoot = findSet(a);
-    int bRoot = findSet(b);
-    if(aRoot == bRoot) return false;
+    int aRoot = find(a);
+    int bRoot = find(b);
 
-    parents[bRoot] = aRoot;
-    return true;
+    if (rank[aRoot] < rank[bRoot]) { // 트리의 깊이를 서로 비교해서 작은것을 큰것아래에 붙인다.(트리의 깊이 최소화)
+        parents[aRoot] = bRoot;
+    } else {
+        parents[bRoot] = aRoot;
+        if (rank[aRoot] == rank[bRoot]) {
+            rank[aRoot]++;
+        }
+    }
 }
 ```
 
