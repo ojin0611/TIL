@@ -29,3 +29,43 @@ for item in items: (i++)
 		dp[j] = Max(dp[j], dp[j-item.weight] + item.value)
 ```
 
+
+
+## 최장 증가 수열 (LIS)
+
+**방법 1**
+
+길이 n의 DP 배열에 각 지점을 포함하는 최장수열의 길이를 갱신하면서 문제를 풀 수 있다. O(n^2)
+
+**방법 2**
+
+증가수열의 크기만큼 저장하는 배열 LIS를 각 지점을 지날때마다 갱신한다. 각 지점을 지날때마다 최장증가수열의 길이를 알 수 있다.  O(nlogn)
+
+```java
+int size = 0;
+for (int i = 0; i < N; i++) {
+    int temp = Arrays.binarySearch(LIS, 0, size, arr[i]);
+    temp = Math.abs(temp)-1; // 중복값이 없으므로 탐색에 실패하고 음수값이 리턴 
+    LIS[temp] = arr[i]; // 맨뒤에 추가되거나 기존위치에 덮어쓰거나
+
+    if(temp == size) ++size;
+}
+
+```
+
+
+
+### Arrays.binarySearch
+
+![image-20210325184701235](images/image-20210325184701235.png) 
+
+
+
+```java
+int[] array = {1,3,5,7,9};
+```
+
+여기서 array에 포함되는 숫자가 아닌 다른 숫자를 탐색하려고하면 음수를 리턴한다.
+
+포함되는 숫자를 찾으면 해당 숫자의 인덱스를 반환하고, 없는 숫자라면 그 숫자가 들어가야할 위치에 대한 정보를 반환한다. 맨 앞이 -1이고, 다음 구간으로 갈수록 -1씩 증가한다.
+
