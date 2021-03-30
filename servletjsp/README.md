@@ -46,7 +46,7 @@ JSP는 실행시 자바 서블릿으로 변환된 후 실행된다. 하지만 �
 
 
 
-## 요소
+## JSP Scripting Element
 
 1. 선언 (Declaration) 
 
@@ -73,4 +73,91 @@ JSP는 실행시 자바 서블릿으로 변환된 후 실행된다. 하지만 �
    `<%-- 주석할 code --%>`
 
    코드 상에서 부가 설명을 작성할 때 사용한다.
+
+
+
+## JSP Directive
+
+`<%@ %>`
+
+1. page Directive
+
+   컨테이너에게 현재 jsp 페이지를 어떻게 처리할지 정보 제공
+
+   `<%@ page attr1="val" attr2="val2" %>`
+
+   사용 가능한 속성들은 다음과 같다. language, info, contentType, pageEncoding, import, session, errorPage, isErrorPage, buffer, autoflush, isThreadsafe, extends
+
+2. include Directive
+
+   특정 jsp file을 페이지에 포함
+
+   `<%@ include file = "/template/header.jsp" %>`
+
+3. taglib Directive
+
+   JSTL 또는 custom tag를 이용할 때 사용.
+
+   `<%@ taglib prefix="c" url="http://java,sun.com/jsp/jstl/core" %>`
+
+
+
+## JSP 기본 객체
+
+- request : 사용자 입력정보 읽어올 때 사용
+
+- response : 사용자 요청에 대한 응답을 처리하기 위해 사용
+
+- pageContext : 각종 기본객체를 얻거나 forward/include 기능을 활용할 때 사용
+
+- session : 세션정보 처리할 때 사용. page directive의 session 속성 false로 하면 내장객체 생성x.
+
+- application : 웹서버의 애플리케이션 처리와 관련된 정보를 레퍼런스하기 위해 사용
+
+- out : output 스트림 처리할 때 사용
+
+- config : 현재 jsp에 대한 초기화환경 처리 위해 사용
+
+- page : 현재 jsp 페이지에 대한 참조변수
+
+- exception : 전달된 오류 정보를 담고있는 내장객체다. isErrorPage 속성을 true로 설정해야 사용할 수 있다. 
+
+
+
+## JSP 기본 객체의 영역 (scope)
+
+map처럼 이름과 값을 이용해서 데이터를 저장한다. 저장한 데이터를 사용할 수 있는 영역은 아래와 같다. 
+
+- pageContext : 하나의 JSP 페이지를 처리할 때 사용되는 영역. 페이지를 벗어나면 사라진다.
+
+- request : 하나의 HTTP 요청을 처리할 때 사용되는 영역. 요청에 대한 응답이 완료되면 사라진다.
+
+- session : 하나의 웹 브라우저와 관련된 영역. 
+
+- application : 하나의 웹 어플리케이션과 관련된 영역.
+
+정보를 주고받거나 공유하기 위한 메소드들은 아래와 같다.
+
+- void setAttribute(String name, Object value)
+
+- Object getAttribute(String name)
+
+- Enumeration getAttributionNames()
+
+- void removeAttribute(String name)
+
+
+
+## Web Page 이동
+
+페이지를 이동하는 방법에는 크게 2가지가 있다.
+
+|              | forward(request, response)                                   | sendRedirect(location)           |
+| ------------ | ------------------------------------------------------------ | -------------------------------- |
+| 사용 방법    | RequestDispatcher dispatcher = request.getRequestDispatcher(path);<br />dispatcher.forward(request, response); | response.sendRedirect(location); |
+| 이동 범위    | 동일 서버(project) 내 경로                                   | 타 url도 가능                    |
+| location bar | 기존 url 유지!                                               | 이동하는 page로 변경             |
+| 객체         | 기존의 request, response가 그대로 전달                       | 새로운 request, response가 생성  |
+| 속도         | sendRedirect보다 빠름                                        | forward에 비해 느림              |
+| 데이터 유지  | request.setAttribute(name, value)                            | session, cookie                  |
 
