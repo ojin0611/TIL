@@ -194,3 +194,114 @@ JSTL tag는 총 5가지로, core, xml, fmt, sql, 함수가 있다.
 그 중 core tag를 사용하려면 `<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>` 을 선언해야된다.
 
 fmt tag를 사용하려면 `<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>`를 JSP 맨 처음에 선언해야된다.
+
+
+
+# HTTP Protocol
+
+http protocol의 특징은 다음과 같다.
+
+- client가 server에 요청한다
+- server는 요청에 대한 처리를 한 후, client에 응답한다.
+- 응답 후 연결을 해제한다. 이 상태를 stateless 하다고 한다.
+  - 지속적인 연결로 인한 자원낭비를 줄이기 위한 방법이다.
+  - 그러나 client, server가 연결 상태를 유지해야되는 경우 문제가 발생한다.
+  - client 단위로 상태정보를 유지해야되는 경우 cookie,session을 사용한다.
+
+즉, HTTP protocol의 특징(약점)을 보완하기 위해 사용한다.
+
+# Cookie
+
+사용자의 컴퓨터에 저장하는 정보 파일이다. 사용자가 별도의 요청을 하지 않아도 브라우저는 request 시 Request Header를 넣어 자동으로 서버에 전송한다.
+
+key,value로 구성돼있고 String 형태로 이루어져있다. Browser마다 저장되는 쿠키는 다르다.
+
+
+
+## 목적
+
+주목적은 세션관리 / 개인화 / 트래킹이다.
+
+주로 자동 로그인, 일주일간 다시 보지 않기, 최근 검색 상품 추천 등에 사용된다.
+
+
+
+## 구성요소
+
+이름 : 쿠키를 구별할 때 사용
+
+값 : 쿠키의 이름과 매핑
+
+유효기간 : 쿠키의 유효기간
+
+도메인 : 쿠키를 전송할 도메인
+
+경로(path) : 쿠키를 전송할 요청 경로
+
+
+
+## 동작 순서
+
+1. Client가 페이지 요청
+
+2. WAS가 Cookie 생성
+3. HTTP header에 cookie 넣어서 응답
+4. Browser가 Cookie를 pc에 저장하고, WAS에 요청할 때 Cookie를 함께 전송
+5. Browser가 종료되어도 Cookie의 만료기간이 남아있다면 Cookie를 계속 보관
+6. 동일 사이트 재방문시, Client의 PC에 해당 Cookie가 있는 경우, 요청 페이지와 함께 Cookie를 전송
+
+
+
+## Cookie의 특징
+
+이름, 값, 만료일, 경로 정보로 구성돼있다.
+
+클라이언트에 300개의 쿠키를 저장할 수 있다.
+
+하나의 도메인당 20개의 쿠키를 가질 수 있다.
+
+1개의 쿠키는 4KB까지 저장가능하다.
+
+![image-20210401181147994](images/image-20210401181147994.png) 
+
+
+
+# Session
+
+방문자가 웹 서버에 접속해있는 상태를 하나의 단위로 보고, 이를 세션이라고 한다.
+
+WAS의 메모리에 Object의 형태로 저장. memory가 허용하는 용량까지 제한없이 저장 가능하다.
+
+
+
+## 동작 순서
+
+1. 클라이언트가 페이지 요청
+
+2. 서버는 클라이언트의 Cookie를 확인해, 클라이언트가 해당 session-id 보냈는지 확인
+3. session-id가 존재하지 않는다면, 서버는 session-id를 생성해 클라이언트에게 돌려준다.
+4. 쿠키를 사용해 session-id를 서버에 저장한다. 쿠키 이름은 JSESSIONID.
+5. 클라이언트는 재접속 시, 이 쿠키를 이용해 session-id 값을 서버에 전달한다.
+
+
+
+## 특징
+
+- **웹 서버**에 웹 컨테이너의 상태를 유지하기 위한 정보를 저장한다.
+
+- 웹 서버에 저장되는 쿠키를 세션 쿠키라고 한다.
+
+- 브라우저를 닫거나, 서버에서 세션을 삭제했을 때만 삭제되므로 쿠키보다 비교적 보안이 좋다.
+- 저장 데이터에 제한이 없다.
+- 각 클라이언트(Browser)마다 고유 session-id를 부여한다. 
+
+
+
+![image-20210401190634710](images/image-20210401190634710.png) 
+
+
+
+# Session vs Cookie
+
+![image-20210401190716052](images/image-20210401190716052.png) 
+
