@@ -787,3 +787,51 @@ SAX Parser는 tag를 만나면 실행되는 event 기반의 처리방식을 사�
 
 클라이언트의 UI를 위해 Java의 awt, Swing 같은 Library를 사용한다.
 
+
+
+# Variable arguments
+
+함수의 매개변수의 개수가 사용자의 쓰임에 따라 달라지는 것을 대비해, 자바는 매개변수의 개수를 동적으로 지정해줄 수 있게 됐다. (Since JDK1.5) 이 기능을 가변인자(Variable argument)라고 한다.
+
+
+
+## 사용법
+
+키워드 `...`을 사용한다. 빈 인자값이나 같은 타입의 배열도 인자값으로 줄 수 있다.
+
+``` java
+// ---- String ---- //
+void sum(String...str) {
+	for(String a:str)
+    	System.out.println(a);
+}
+
+public static void main(String args[]) {
+    Varargs v = new Varargs();
+    v.sum("a","b","c");
+    v.sum();
+    v.sum(new String [2]);
+}
+
+// ---- DB close ---- //
+public static void close(AutoCloseable... closeables) {
+    for(AutoCloseable c : closeables) {
+        if (c != null) {
+            try {
+                c.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+
+```
+
+가변인자는 내부적으로 배열을 생성해서 사용한다. 가변인자 외에도 다른 매개변수가 더 있다면 가변인자는 마지막에 선언해야된다.
+
+
+
+## 오버로딩 시 주의점
+
+컴파일러는 가변인자가 있는 두 개의 메소드를 구분할 수 없기때문에 컴파일 에러가 발생한다. 가능하면 가변인자를 사용한 메소드는 오버로딩을 하지 않는 것이 좋다.
