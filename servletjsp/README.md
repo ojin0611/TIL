@@ -161,3 +161,36 @@ map처럼 이름과 값을 이용해서 데이터를 저장한다. 저장한 데
 | 속도         | sendRedirect보다 빠름                                        | forward에 비해 느림              |
 | 데이터 유지  | request.setAttribute(name, value)                            | session, cookie                  |
 
+
+
+# EL
+
+JSP의 스크립트 표현식을 대신해 속성값을 쉽게 출력하도록 고안된 language다.
+
+
+
+## 문법
+
+`${Map.Map의 키}`, `${Java Bean.Bean 프로퍼티}`
+
+[] 연산자 : `$(userinfo["name"])` 은 `$(userinfo.name)`과 같은 표현.
+
+
+
+## EL 내장객체
+
+pageContext, pageScope, requestScope, sessionScope, applicationScope, param, paramValues, header, headerValues, cookie, initParam 등이 있다.
+
+pageContext 제외 모든 내장객체는 Map. 기본 문법은 `${expr}`이다.
+
+
+
+# JSTL
+
+JSP Standard Tag Liabrary는 JSP 태그라이브러리를 추가해 JSP 사양을 확장했다. 표준화된 태그 셋을 사용해 코드의 유지보수가 용이하다.
+
+JSTL tag는 총 5가지로, core, xml, fmt, sql, 함수가 있다.
+
+그 중 core tag를 사용하려면 `<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>` 을 선언해야된다.
+
+fmt tag를 사용하려면 `<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>`를 JSP 맨 처음에 선언해야된다.

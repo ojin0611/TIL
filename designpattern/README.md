@@ -93,3 +93,4 @@ Client 요청에 대한 처리는 servlet, Logic 처리는 java class(Service, D
 
 ![image-20210401100354266](images/image-20210401100354266.png) 
 
+Service, Dao 는 1개의 객체만 존재하면 되므로 Singleton으로 만들어준다. Spring은 default가 singleton이다. 즉, 유저가 직접 Singleton 코딩하지 않아도 Service와 Dao를 싱글톤 객체로 생성해준다.
