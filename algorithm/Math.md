@@ -107,3 +107,63 @@ private static long power(long x, long y, long p) {
 
 ```
 
+
+
+## 뤼카의 정리
+
+페르마의 소정리로는 아래처럼 n이 매우 큰 문제를 풀 수 없다.
+
+![img](images/212E9536562CAFCD2C) 
+
+이런 경우 Lucas Theorem을 이용한다.
+
+
+
+음이 아닌 정수 n,k, 소수 p에 대해 다음과 같이 n과 k를 p진법 전개식으로 나타냈을 때
+
+![img](images/252A7336562CAFD433) 
+
+다음 합동식이 성립하는 것에 대한 정리다.
+
+![img](images/2615233C562CAFEC30) 
+
+이를 이용해 nCr을 구할 수 있다.
+
+```java
+long n,r,p; // 할당됐다고 가정
+
+while (n != 0 && r != 0) {
+    answer = (answer * nCr(n % p, r % p, p)) % p;
+    n /= p;
+    r /= p;
+}
+
+// Methods //
+private static long nCr(long n, long r, long mod) {
+    if (n < r)
+        return 0;
+    long top = getFactorial(n, mod);
+    long bottom = getFactorial(r, mod) * getFactorial(n - r, mod) % mod;
+
+    return top * power(bottom, mod - 2, mod) % mod;
+}
+
+private static long getFactorial(long n, long mod) {
+    long res = 1;
+    for (int num = 2; num <= n; num++)
+        res = (res * num) % mod;
+    return res;
+}
+
+private static long power(long num, long p, long MOD) {
+    if (p == 0)
+        return 1;
+    long half = power(num, p / 2, MOD);
+    if (p % 2 == 1) {
+        return half * half % MOD * num % MOD;
+    } else {
+        return half * half % MOD;
+    }
+}
+```
+
