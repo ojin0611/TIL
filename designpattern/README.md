@@ -46,6 +46,34 @@ public class Speaker2 {
 
 ```
 
+위 코드는 멀티쓰레드 환경에서 문제가 발생할 수 있다. `getInstance() `  블럭을 여러 쓰레드가 동시에 사용한다면 여러개의 인스턴스가 발생할 위험이 있다. 
+
+또한 변수 volume도 다른 프로세스에서 처리할 경우 값이 일관되지 않을 수 있다. 
+
+따라서 아래처럼 작성하는 것이 멀티쓰레드 환경에서 안전하다.
+
+```java
+public class Printer {
+    private static Printer printer = new Printer();
+    private static int count = 0;
+
+    private Printer(){}
+
+    public static Printer getInstance() {
+        return printer;
+    }
+
+    public synchronized static void print(String input) {
+        count++;
+        System.out.println(input + "count : "+ count);
+    }
+}
+```
+
+정적 변수 (static)는 객체가 생성되기 전 **클래스가 메모리에 로딩될 때** 만들어져 초기화가 한 번만 실행된다. 또한 프로그램이 종료될때까지 없어지지 않고 메모리에 상주하기때문에 클래스에서 생성된 모든 객체에서 참조할 수 있다. 즉, 기존 조건문에서 체크하던 부분이 원칙적으로 제거된 것이다.
+
+count 변수의 경우, 하나의 객체만 사용되지만 여러 쓰레드가 동시에 접근하기때문에 쓰레드마다 값이 달라질 수 있다. 따라서 `synchronized` 키워드를 통해 여러 쓰레드에서 동시에 접근하는 것을 막을 수 있다.
+
 
 
 
