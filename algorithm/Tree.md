@@ -33,6 +33,21 @@
 
 ## 구현
 
+자손 노드가 n(>2)개 이상 있는 경우에는 자손 노드들을 배열 또는 List Collection으로 표현한다.
+
+```java
+class Node{
+    // node의 숫자, 부모, 자손, 자손의 수
+    int num, parent, childrenCnt;
+    ArrayList<Integer> children = new ArrayList<Integer>();
+    // 이외에도 필요한 내용을 클래스에 담아서 표현할 수 있다.
+}
+```
+
+
+
+이진트리의 경우는 left, right 를 이용할 수 있다.
+
 ```java
 // input : Object data, left_data, right_data
 // for (something) makeNode(a,b,c);
