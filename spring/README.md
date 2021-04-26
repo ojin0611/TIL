@@ -204,5 +204,66 @@ CommonService memberService = context.getBean("memberService", MemberService.cla
 
 
 
+# DI
+
+객체 간 의존관계를 자신이 아닌 외부의 조립기(Spring Container 제공)가 수행한다. DI를 통해 시스템에 있는 각 객체를 조정하는 외부 개체가 객체들에게 생성시 의존관계를 준다.
+
+객체는 인터페이스에 의한 의존관계만 알고있고, 이 의존관계는 구현 클래스에 대한 차이를 모르는 채 서로 다른 구현으로 대체할 수 있다.
+
+## 빈 설정
+
+스프링 빈은 기본적으로 싱글톤으로 만들어진다. 항상 새로운 인스턴스를 반환하게 만들고싶을 경우 scope를 prototype으로 설정해야한다. (singleton, prototype, request, session 사용가능)
 
 
+
+Bean 설정 메타정보 표현방식은 XML, Annotation, Java Code가 있다.
+
+
+
+## XML
+
+`<bean>` 태그를 통해 제어한다.
+
+기본 속성 : name, id, class, factory-method (Singleton 패턴으로 작성된 객체의 factory 메소드 호출)
+
+객체 주입 : ref, value(type 명시도 가능. 기본은 String)
+
+생성자 : `<constructor-arg>` 
+
+속성 : 하위태그, `<property>`, xml namespace (p)
+
+Collection : `<list>`, `<set>`, `<map>`, `<props>`(java.util.Properties)
+
+
+
+
+
+## Annotation
+
+빈 개수가 많아질 경우 xml 파일 관리가 힘들다. 클래스에 특별한 annotation 부여해주면 자동으로 빈이 등록된다.
+
+오브젝트 빈 스캐너로 bean scanning을 통해 자동 등록한다.
+
+- 기본적으로 클래스 이름(의 첫 글자만 소문자로 바꾼 것)을 빈의 아이디로 사용한다.
+
+Annotation으로 빈 설정 시, 반드시 component-scan을 설정해야한다.
+
+```xml
+<context:component-scan base-package="com.test.hello.*"/>
+```
+
+### Stereotype annotation
+
+빈 자동등록에 사용할 수 있는 annotation : `@Repository`, `@Service`, `@Controller`, `@Component`
+
+다른 Bean 참조할 때 사용하는 annotation : `@Resource`, `@Autowired`, `@Inject`
+
+- 멤버변수, 메소드, 생성자에 사용한다.
+
+- `@Autowired` 사용시 동일한 타입의 bean이 여러개일 경우 `@Qualifier("name")`로 식별한다.
+
+
+
+## Spring Bean Life Cycle
+
+빈 생성 => 의존성 주입 => init-method 실행 => 빈 사용 => destroy-method 실행 => 빈 소멸
