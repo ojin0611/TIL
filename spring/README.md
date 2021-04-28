@@ -133,6 +133,8 @@ IoC의 구현방법 중 하나가 DI.
 
 Object의 생성과 관계설정, 사용, 제거 등의 작업을 독립된 컨테이너가 담당한다. 컨테이너가 코드 대신 Object에 대한 제어권을 갖고있어 IoC라고 부른다. 이 때문에 스프링 컨테이너를 IoC라고 부르기도 한다. (BeanFactory, ApplicationContext 등)
 
+**중요! ApplicationContext는 IoC 컨테이너의 이름이다.**
+
 
 
 **interface BeanFactory**
