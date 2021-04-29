@@ -80,7 +80,7 @@ Controller가 많은 일을 하지 않고 Service에 처리를 위임하는 것�
    - servlet-context.xml 파일을 로딩 해 2번째 Spring Container를 구동한다. 이 2번째 Spring Container가 Controller 객체를 메모리에 생성한다. 
    - DispatcherServlet은 Front Controller 역할을 수행한다.
 7. servlet-context.xml을 로딩 by DispatcherServlet
-8. 이후 구동 순서는 [다음](##Spring-MVC-요청-흐름)과 같다.
+8. 이후 구동 순서는 [다음](#Spring-MVC-요청-흐름)과 같다.
 
 # web.xml
 
@@ -305,14 +305,8 @@ webapp에 배치해도 에러가 생기진 않는다. url로 jsp 파일을 실�
           return "hello";
    }
     ```
-    ```
-   
-    ```
    
    
-    ```
-   
-    ```
 
 
 2. return ModelAndView
@@ -372,3 +366,6 @@ public String viewArticle(@PathVariable String userId, @PathVariable int article
 
 - `*` : 하나 이상의 문자열과 대치
 - `**` : 하나 이상의 디렉토리와 대치
+
+
+
