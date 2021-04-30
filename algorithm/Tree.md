@@ -1,4 +1,7 @@
 # Tree
+
+[TOC]
+
 트리는 비선형구조, 1:n 관계를 갖는 자료구조다.
 
 ![image-20210215005951475](images/image-20210215005951475.png)
@@ -162,7 +165,76 @@ index 0은 비우고, index 1부터 배열을 노드의 값으로 채운다.
         }
     }
     ```
-
+    
+  - 전위순회한 값을 토대로 tree를 재구성하는 코드는 아래와 같다. (tree, Node 2가지 버전)
+    
+    ```java
+    public static void main(String[] args) throws IOException {
+        while((s=br.readLine()) != null && s.length()!=0) { // EOF
+            // 기존 tree에 (숫자를 넣어 새로 생성된 tree)를 다시 저장한다.
+            int N = Integer.parseInt(s);
+            tree = tree.addTree(tree, N);
+            // root = insertNode(root, N);
+        }
+    }
+    
+    // Tree
+    class BinaryTree{
+        int data;
+        BinaryTree left;
+        BinaryTree right;
+    
+        BinaryTree(int data){
+            this.data=data;
+        }
+    
+        // tree 위치에 val을 포함한 Node를 추가한다.
+        BinaryTree addTree(BinaryTree tree, int val){
+            // target 위치가 비어있으면 Node 1개짜리 tree 생성
+            if(tree==null) {
+                return new BinaryTree(val);
+            }
+            // val이 기존 tree의 data보다 작다면 왼쪽에 추가
+            if(tree.data > val) {
+                tree.left = addTree(tree.left, val);
+            }
+    
+            // val이 기존 tree의 data보다 크다면 오른쪽에 추가
+            else if(tree.data < val) {
+                tree.right = addTree(tree.right, val);
+            }
+    
+            return tree;
+        }
+    }
+    
+    // Node
+    public static class Node{
+        Node left;
+        Node right;
+        int val;
+        public Node(int v) {
+            this.val = v;
+        }
+    }
+    
+    public static Node insertNode(Node node, int N) {
+        Node current = null;
+        if(node == null) {
+            return new Node(N);
+        }
+    
+        if(node.val > N) {
+            current = insertNode(node.left, N);
+            node.left = current;
+        }else {
+            current = insertNode(node.right, N);
+            node.right = current;
+        }
+        return node;
+    }
+    ```
+    
     
 
 - 중위 순회(inorder) : LVR
