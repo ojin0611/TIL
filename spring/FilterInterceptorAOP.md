@@ -85,6 +85,8 @@ url-pattern에 해당하는 요청에 대해 filter를 설정한다. (`/*`)
 
 Interceptor 역할을 하는 Bean은 `HandlerInterceptorAdapter` class를 상속받는다. 아래는 세션에서 유저 정보를 받아 로그인 체크하는 인터셉터 코드다. 
 
+`@Component`를 등록하면 interceptor를 위한 bean을 위처럼 설정하지 않아도 된다.
+
 ```java
 package com.pkg.interceptor;
 import modules;
@@ -105,7 +107,23 @@ public class ConfirmInterceptor extends HandlerInterceptorAdapter {
 
 ```
 
+## Interceptor with Java
 
+Interceptor로 등록한 Bean을 아래 설정파일에서 Autowired를 통해 사용할 수 있다.
+
+```java
+@Configuration
+public class WebConfiguration extends WebMvcConfigurerAdapter{
+	
+	@Autowired
+	private ConfirmInterceptor confirmInterceptor;
+	
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(confirmInterceptor).addPathPatterns("/article/**");
+	}
+}
+```
 
 
 
