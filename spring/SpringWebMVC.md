@@ -295,18 +295,17 @@ webapp에 배치해도 에러가 생기진 않는다. url로 jsp 파일을 실�
 
 1. argument : Map, Model, ModelMap 
 
-	- `@RequestMapping` annotation 적용 시
+      - `@RequestMapping` annotation 적용 시
 
-	- ```java
-    @RequestMapping("/hello.do")
-   public String hello(Map model){ 
-          // model에 데이터 담아 전달. 데이터타입은 Map 대신 Model, ModelMAp도 가능
-          model.put("message", "안녕");
-          return "hello";
-   }
-    ```
-   
-   
+      - ```java
+        @RequestMapping("/hello.do")
+        public String hello(Map model){ 
+            // model에 데이터 담아 전달. 데이터타입은 Map 대신 Model, ModelMAp도 가능
+            model.put("message", "안녕");
+            return "hello";
+        }
+        ```
+
 
 
 2. return ModelAndView
