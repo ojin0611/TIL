@@ -216,3 +216,52 @@ mustaches는 html이 아닌 일반 텍스트로 데이터를 해석한다.
 
 # Vue Method
 
+Vue 객체에 methods 속성을 추가하고, 그 안에 함수들을 선언하면 된다. 내부에서 호출할 때는 this(Vue 객체의 레퍼런스)를 사용한다.
+
+```javascript
+new Vue({
+    el: '#app',
+    data() {
+        return {
+            userid: '',
+            username: '',
+        };
+    },
+    methods: {
+        checkVal() {
+            if (!this.userid) {
+                alert('아이디 입력!');
+            } else {
+                this.register();
+            }
+        },
+        register() {
+            // alert('register() called!!');
+            let user = {
+                userid: this.userid,
+                username: this.username,
+            };
+            console.log(user);
+        },
+    },
+});
+// <button @click = "checkVal">등록</button> 으로 메소드에 초기 접근을 한다.  
+```
+
+
+
+### param
+
+url의 parameter에 접근하는 방법은 아래와 같다.  `<a :href="'view.html?userid=' + userid">정보보기</a>`
+
+searchParams
+
+```javascript
+// 아래는 Vue 객체의 created() 속성
+created() {
+    const params = new URL(document.location).searchParams;
+    alert(params.get('userid'));
+    this.p = params.get('userid');
+}
+```
+
