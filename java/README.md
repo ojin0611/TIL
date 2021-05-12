@@ -261,6 +261,95 @@ this의 용법은 크게 4가지다.
 
 
 
+# Enum
+
+Enum은 열거형 상수로, 서로 연관된 **상수**들의 집합이다. 어떤 클래스가 상수만으로 작성돼있으면 반드시 class로 선언할 필요없이 enum으로 선언한다. class로 선언된 부분에 enum이라고 선언하면 "이 객체는 상수의 집합이다"라는 것을 명시적으로 나타낸다.
+
+```java
+public enum DevType {
+    MOBILE, WEB, SERVER
+}
+
+public class Developer {
+    public String name;
+    public int career;
+    public DevType type;
+    
+    public static void main(String[] args){
+        Developer developer = new Developer();
+         
+        developer.name = "홍길동";
+        developer.career = 3;
+        developer.type = DevType.WEB;
+         
+        System.out.println("이름 : "+ developer.name);   // 이름  : 홍길동
+        System.out.println("경력 : "+ developer.career); // 경력  : 3
+        System.out.println("직무 : "+ developer.type);   // 직무 :  WEB
+
+    }
+}
+```
+
+## 특징
+
+- 선언된 순서에 따라 0부터 인덱스 값을 갖고, 순차적으로 증가된다.
+
+- enum 열거형으로 지정된 상수들은 모두 대문자로 선언한다.
+
+- 마지막 열거형 변수들을 선언한 후 세미콜론은 찍지 않는다. 단, 상수와 연관된 문자를 연결시킬 경우 찍는다.
+
+- enum 타입은 고정된 상수들의 집합으로, 런타임이 아닌 컴파일타임에 모든 값을 알고 있어야 한다. 즉, 다른 패키지나 클래스에서 enum 타입에 접근해 동적으로 어떤 값을 정해줄 수 없다. 따라서 컴파일 시 타입안정성이 보장된다.
+
+
+
+## 메소드
+
+`values()` : enum의 요소들을 순서대로 enum타입의 배열로 리턴. static methods
+
+```java
+for(DevType type : DevType.values()){
+    System.out.println(type); // MOBILE\n WEB\n SERVER\n
+}
+```
+
+
+
+`ordinal()` : 원소에 열거된 순서를 정수 값으로 리턴. not static methods
+
+```java
+DevType tp = developer.type.SERVER;
+System.out.println(tp.ordinal());   // 2 
+```
+
+
+
+`valueOf()` : 매개변수로 주어진 String과 열거형에서 일치하는 이름을 갖는 원소를 리턴. static
+
+```java
+// 상수("연관시킬 문자")
+enum DevType{
+    MOBILE("안드로이드"), WEB("스프링"), SERVER("리눅스");
+}
+
+class Developer {
+    public String name;
+    public int career;
+    public DevType type;
+     
+    public static void main(String[] args){
+        for(DevType type : DevType.values()){
+            System.out.println(type.getName()); // 안드로이드\n 스프링\n 리눅스\n
+        }
+    }
+}
+```
+
+
+
+실제 enum을 사용해 성능 개선 및 문제 해결한 예시는 다음 [링크](https://woowabros.github.io/tools/2017/07/10/java-enum-uses.html)를 통해 확인할 수 있다.
+
+
+
 
 # Serialize
 
