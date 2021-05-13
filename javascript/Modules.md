@@ -78,3 +78,12 @@ import { name, draw } from './modules/square.js';
 ```
 
 import한 뒤에는 동일한 파일 내에 정의한 것처럼 기능을 사용할 수 있다.
+
+
+
+해당 javascript 모듈을 html에 import할 때는 type='module'을 이용한다.
+
+```html
+<script type="module" src="app.js"></script>
+```
+
