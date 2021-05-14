@@ -12,7 +12,8 @@
 // callback 적용
 function getData(callbackFunc) {
   $.get('url 주소/products/1', function(response) {
-    callbackFunc(response); // 서버에서 받은 데이터 response를 callbackFunc() 함수에 넘겨줌
+    callbackFunc(response); // 서버에서 받은 데이터 response를 callbackFunc() 함수에 넘겨줌.
+      // 데이터가 완전히 받아진 후에 getData 함수가 끝난다.
   });
 }
 
