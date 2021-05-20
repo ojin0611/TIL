@@ -1,5 +1,7 @@
 # DP
 
+[TOC]
+
 동적 계획법(Dynamic Programming)은 그리디 알고리즘과 같이 최적화 문제를 해결하는 알고리즘이다.
 
 > 최적화 문제 : 최적(최대 또는 최소)값을 구하는 문제
@@ -44,6 +46,27 @@ for item in items: (i++)
 	for j in dp: (j--) // dp[j] = 무게 j까지 최대 가치합
 		dp[j] = Max(dp[j], dp[j-item.weight] + item.value)
 ```
+
+
+
+### 예제
+
+[백준7579](https://www.acmicpc.net/problem/7579)
+
+앱마다 메모리, 비용이 있다. 앱들의 메모리의 합을 M 이상 만족할 때 최소의 비용은?
+
+```java
+int[] memory = new int[N];
+int[] cost = new int[N];
+int[][] dp = new int[N][sumCost+1];
+for(int i=0;i<N;i++) {
+    for(int j=0; j<=maxCost; j++){
+		dp[i][j] = Math.max(dp[i-1][j-cost[i]] + memory[i], dp[i-1][j]);
+    }
+}
+```
+
+
 
 
 
