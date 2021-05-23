@@ -168,7 +168,23 @@ a.java라는 파일에 public class로 만들수 있는 클래스는 파일명�
 
 
 
-## Overload
+## Wrapper class
+
+8개의 기본 타입(primitive type)에 해당하는 데이터를 객체화한 클래스다. 객체 형태로 생성된 변수는 null을 넣거나 메소드를 사용할 수 있게 된다. (ex. `toString()`)
+
+또한 Wrapper 형태는 Generics에 사용된다.
+
+
+
+### Boxing, Unboxing
+
+참조형끼리는 연산이 불가능하기때문에 기본 자료형으로 **변환해** 연산해야한다. Wrapper class로 바꿔주는 것을 boxing이라고 하고, wrapper class 타입의 값을 primitive type으로 바꾸는 것을 unboxing이라고 한다. Java 5 이후에는 `Integer var1 = int var2; ` 형태로 작성해도 적용이 되는데 이를 autoboxing, autounboxing이라고 한다.
+
+
+
+
+
+# Overload
 
 같은 이름의 함수를 여러번 구현할수있다. 함수의 이름을 절약하기 위해 사용한다
 
