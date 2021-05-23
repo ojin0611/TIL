@@ -1,19 +1,34 @@
-# Table of Contents
+# Java
 
-- [Operator](#operator)
-- [JVM and Memory](#jvm-and-memory)
-- [String](#string)
-- [Class](#class)
-- [Polymorphism](#polymorphism)
-- [this](#this)
-- [Serialize](#serialize)
-- [Lambda](#lambda)
-- [Stream](#stream)
-- [Singleton Pattern](#singleton-pattern)
-- [Exception](#exception)
-- [Thread](#Thread)
+[TOC]
 
-- [Network](#Network)
+# Compile Language
+
+컴파일 언어는 원시 코드(프로그래머가 작성한 소스코드)를 모두 기계어로 변환해 기계(JVM)에 넣고 기계어 코드를 실행한다. 소스코드를 기계어로 번역하는 빌드 과정에서는 인터프리터 언어에 비해 시간이 소요되지만, 런타임 시 이미 기계어로 모든 소스코드가 변환돼있기 때문에 빠르게 실행할 수 있다. 
+
+> Java, C, C++
+
+
+
+## 인터프리터 언어
+
+원시코드를 기계어로 변환하는 과정없이 한 줄씩 해석해 바로 명령어를 실행하는 언어다.  
+
+인터프리터가 직접 한 줄씩 읽고 따로 기계어로 변환하지 않기때문에 빌드 시간이 없다. Runtime 상황에서는 한 줄씩 실시간으로 읽어서 실행하기 때문에 컴파일 언어에 비해 속도가 느립니다.
+
+실행속도는 느리지만 코드 변경시 빌드 과정 없이 바로 실행이 가능하다는 장점이 있다. 
+
+> R, Python, Ruby
+
+
+
+## 빌드 과정
+
+소스파일을 실행파일로 생성하는 과정이다. 고급언어 --> 변환 --> 저급언어(기계어) 과정을 거쳐 실행 파일로 생성한다. 인터프리터 언어는 빌드과정 없이 바로 고급언어에서 한줄 씩 읽어서 실행한다.
+
+컴파일 언어는 .class 파일을 생성해 실행한다.
+
+
 
 
 
