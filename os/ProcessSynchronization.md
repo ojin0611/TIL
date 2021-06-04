@@ -103,3 +103,81 @@ S++;
 
 
 
+# Deadlock
+
+프로세스가 자원을 얻지 못해 다음 처리를 하지 못하는 상태다. 교착상태라고도 부르며, 한정된 자원을 여러 곳에서 사용하려고 할 때 발생한다. 
+
+
+
+## Deadlock 발생 조건
+
+1. Mutual Exclusion : 1개의 자원을 가질 수 있는 프로세스는 1개다.
+2. No preemption : 프로세스는 자원을 강제로 빼앗기지 않는다.
+3. Hold and wait : 자원을 가진 프로세스가 다른 자원을 기다릴 때, 기존에 갖고있는 자원을 holding함.
+4. Circular wait : 자원을 기다리는 프로세스들간의 싸이클이 형성돼야한다.
+
+
+
+## Deadlock 처리 방법
+
+- Deadlock Prevention : 자원 할당 시 4가지 필요조건 중 어느 하나가 만족되지 않도록 하는것
+- Deadlock Avoidance : deadlock 가능성이 없는 경우(safe state)에만 자원을 할당. 
+- Deadlock Detection and recovery : deadlock 발생 허용하되, detection을 통해 recover
+- Deadlock Ignorance : deadlock 무시하기. 대부분의 OS가 채택한다.
+
+
+
+### Prevention
+
+4가지 발생조건 중 하나를 막으면 된다.
+
+1. 자원을 공유할 수 없게 만들면 된다.
+2. 프로세스가 자원을 스스로 반납하도록 한다.
+3. 프로세스가 자원을 기다려야할 때 이미 보유한 자원이 선점된다. 모든 자원을 얻을 수 있을 때 그 프로세스가 다시 시작된다. CPU, memory 등 state를 쉽게 저장하고 복구할 수 있는 자원에서 주로 사용된다.
+4. 자원 유형에 할당 순서를 정한다.
+
+
+
+### Avoidance
+
+평생에 쓸 자원을 알고있다고 가정한다.
+
+프로세스의 sequence(프로세스 실행 순서)가 safe하려면 i번째 프로세스의 자원 요청이 "가용 자원 + j번째 프로세스(j<i)의 보유자원"에 의해 충족돼야한다.
+
+조건을 만족하면 다음 방법으로 모든 프로세스의 수행을 보장한다.
+
+1. Pi의 자원요청이 즉시 충족될 수 없으면 Pj가 종료될때까지 기다린다.
+2. Pi-1이 종료되면 Pi의 자원요청을 만족시켜 수행한다.
+
+
+
+Avoidance 알고리즘으로는 Resource Allocation Graph Algorithm과 Banker's Algorithm이 존재한다.
+
+
+
+### Detection and Recovery
+
+**Detection**
+
+Detection을 할 때 자원 1개를 사용하려는 프로세스(인스턴스)의 개수가 1개면 그래프를 이용하고, 2개 이상이면 (Banker's Algorithm과 유사하게) 테이블을 이용한다. 
+
+1. Graph
+   - Resource-Allocation Graph에서 자원을 빼버리고 프로세스만 남기면 Corresponding wait-for graph가 된다. 여기서 cycle이 존재하면 deadlock이 발생할 수 있다. 
+2. Table
+   - 각 프로세스마다 모든 자원에 대한 Allocation, Request, Available을 계산한다.
+   - Request가 없으면 곧 반납한다고 가정한다.
+   - 반납하면 Allocation이 Available에 추가되고, Available로 Request를 커버할 수 있으면 시퀀스가 존재하는 것이다.
+
+**Recovery**
+
+1. Process Termination
+   - Deadlock 상태의 프로세스를 모두 abort한다. 또는 deadlock cycle이 제거될때까지 프로세스를 하나씩 abort한다.
+2. Resource Preemption
+   - 문제의 프로세스에게서 자원을 빼앗고 safe state를 만들어본다.
+   - 자원을 뺏는 패턴을 바꿔줘야 starvation이 발생하지 않는다. 
+
+
+
+### Ignorance
+
+실제로 deadlock은 드물게 발생하므로 deadlock에 대한 조치 자체가 더 큰 overhead일 수 있기때문에 대부분의 범용 OS는 deadlock ignorance를 채택한다. 
