@@ -14,6 +14,8 @@ heap : 동적 할당 시 사용 (`new()`, `malloc()` 등)
 
 stack : 지역변수, 매개변수, 리턴 값 (임시 메모리 영역)
 
+프로세스는 적어도 1개의 Thread를 가진다.
+
 
 
 ## Context
@@ -82,6 +84,8 @@ Terminated : 수행이 끝난 상태
 
 동일한 일을 하는 프로세스가 여러 개 있으면 메모리 낭비가 발생한다. 이 때 하나의 메모리를 띄우고, 프로세스마다 다른 부분의 코드를 실행하면 효율적인데 이 개념을 도입한게 thread다. 
 
+**CPU 스케쥴링의 기본 단위**!!
+
 프로세스의 주소공간 (stack, data, code) 중 data, code를 공유하고 stack만 따로 쓴다.
 
 PCB에서 program counter와 register만 별도로 유지하고, 다른 부분을 공유한다.
@@ -94,6 +98,81 @@ PCB에서 program counter와 register만 별도로 유지하고, 다른 부분�
 
 1. 하나의 서버 스레드가 blocking 상태인 동안에도 동일한 태스크 내의 다른 스레드가 실행되어 빠른 처리가 가능하다.
 2. 다중 스레드가 협력하여 높은 처리율과 성능 향상을 얻을 수 있다.
+
+
+
+# PCB vs TCB
+
+## PCB
+
+PCB는 Process의 정보를 갖고 있는 자료구조다. Process ID와 상태, 우선순위, 메모리 정보 등을 저장한다. 멀티스레드가 아닌 멀티프로세스 환경에서는 PCB가 PC와 Register Set 정보도 포함한다. 
+
+OS의 스케줄러에 의해 Context Switching되는 프로세스의 정보 단위다. 
+
+
+
+## TCB
+
+TCB는 PCB보다 적은 데이터를 가지는 자료구조이다. 해당 Thread에 대한 정보만 저장하면 되기 때문이다. Thread별로 존재하는 자료구조로, PC, Register Set, PCB Pointer를 갖고 있다.
+
+
+
+[출처 : Teraphonia](https://teraphonia.tistory.com/802)
+
+
+
+# Kernel Thread vs User Thread
+
+아래 그림은 커널 쓰레드와 유저 쓰레드가 혼합된 모델이다. 아래의 커널 스레드마다 1개의 경량 프로세스(LWP, Light Weight Process)가 매핑돼있다.
+
+![img](images/SnetrgiTsxnaFpbDlBfeFpa_MYvwUuSmND1Tp3M67rJ6iTZZbZXLdWzRFpx63sToam8sl5PbH9z4bMDyd7fEnRnhY-gYh3i52onUKWxDuSHybPCpqJhmPwm96HtvtKWP954wJKe8)  
+
+
+
+## User Level Thread
+
+사용자 레벨 스레드(User Thread)는 우리가 흔히 프로그래밍 과정에서 스레드를 코드에 적는 것을 말한다. (ex. Java의 Thread) 위 그림에서 프로세스에 4개의 쓰레드를 만든 것이 User Thread다. 
+
+쓰레드 라이브러리의 스케줄러가 User Thread를 관리한다. 커널 쓰레드가 변경되지 않으면서 User Thread가 변경되는 일을 담당하고, 이 때는 쓰레드간 전환이 일어날때마다 커널 스케줄러를 호출할 필요가 없어 오버헤드가 적다. 
+
+프로세스 1개(사용자 스레드 N개) 당 커널 스레드 1개가 할당된다. PCB는 커널에서 관리하고, **TCB는 프로세스 내에 저장**된다. 
+
+User Level Thread만 사용할 경우, 동작중인 스레드가 시스템 콜을 하면 해당 프로세스 내 모든 스레드가 멈춘다. 프로세스 단위로 CPU가 할당되므로, 다중 CPU 환경에서 한 프로세스 내 쓰레드들을 동시에 실행할 수 없다. 
+
+운영체제에 따른 영향을 덜 받기 때문에 이식성이 좋다.
+
+
+
+## Kernel Level Thread
+
+커널에서 멀티쓰레드 환경이라는 것을 인지하고, 쓰레드를 관리한다. System call이 발생해도 해당 thread만 block되어 wait_queue에 들어간다. 위 그림에서 2개의 커널 쓰레드가 생성된 것을 볼 수 있다.
+
+OS 스케줄러는 커널 레벨 쓰레드를 관리한다. 각 커널 쓰레드가 어떤 쓰레드의 작업을 진행할 지 결정해주는 것이다. 
+
+프로세스 내의 사용자 스레드 1개당 커널 스레드 1개가 할당된다. 
+
+커널이 전체 TCB와 PCB를 관리한다. 이로 인해 시스템 콜 시, 커널이 모든 TCB와 PCB를 관리해야하므로 오버헤드가 크다.
+
+
+
+## JVM에서 Thread
+
+JVM은 User Level Thread를 이용하며, 내부적으로는 Kernel Level Thread로 1대1 매핑을 한다. 
+
+
+
+# Thread-safe
+
+쓰레드 안전은 멀티 쓰레드 프로그래밍에서 일반적으로 어떤 함수나 변수, 객체가 여러 쓰레드의 동시 접근이 이뤄져도 프로그램 실행에 문제가 없음을 뜻한다. 동일한 함수를 여러 쓰레드가 동시에 함께 실행해도 각 쓰레드에서의 함수 수행결과가 올바르게 나오는 것으로 정의한다.
+
+
+
+보장 방법
+
+1. Re-entrancy : 어떤 함수가 한 스레드에 의해 호출돼 실행중일 때, 다른 스레드가 그 함수를 호출해도 그 결과가 각각에게 올바르게 주어진다.
+2. Thread-local storage : 공유 자원의 사용을 최대한 줄여 각각의 스레드에서만 접근 가능한 **저장소들**을 사용함으로써 동시 접근을 막는다. 
+3. Mutual exclusion : **세마포어, 락** 등을 사용
+4. Atomic operations : **원자적**으로 정의된 접근 방법을 사용함으로서 상호 배제를 구현한다.
 
 
 
