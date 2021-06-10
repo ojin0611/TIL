@@ -165,10 +165,49 @@ View는 직접 테이블에 접근하는 것이 아니라 테이블에서 사용
 
 ACID
 
-1. Atomicity (원자성) : 한 덩어리로 움직여야한다.
-2. Consistency (일관성) : 트랜잭션 완료된 상태에서도 트랜잭션 일어나기 전 상황과 동일하게 데이터의 일관성을 보장한다.
-3. Isolation (고립성) : 트랜잭션끼리 간섭하지 않는다. 독립적으로 트랜잭션이 수행된다.
+1. Atomicity (원자성) : 한 덩어리로 움직여야한다. **수행하고 있는 트랜잭션에 의해 변경된 내역을 유지하면서, 이전에 commit된 상태를 임시 영역에 따로 저장한다.** 오류 발생 시, 임시 저장된 지점으로 rollback한다.
+
+2. Consistency (일관성) : 트랜잭션 완료된 상태에서도 트랜잭션 일어나기 전 상황과 동일하게 데이터의 일관성을 보장한다. **트랜잭션 수행 전, 후에 데이터 모델의 모든 제약 조건(기본키, 외래키, 도메인, 도메인 제약조건 등)을 만족하는 것을 통해 보장**한다.
+
+3. Isolation (고립성) : 트랜잭션끼리 간섭하지 않는다. 독립적으로 트랜잭션이 수행된다. 트랜잭션 병행 처리(concurrent processing) 시 고립성 보장을 위해 lock, unlock을 이용한다.
+
+   > shared_lock : 여러 트랜잭션이 읽기만 허용
+   >
+   > exclusive_lock : 1개의 트랜잭션만 사용가능(읽기, 쓰기)
+
 4. Durability (지속성) : 트랜잭션이 종료되면 영구적으로 DB에 작업결과가 저장된다.
+
+
+
+### Isolation Level
+
+Isolation Level은 트랜잭션에서 일관성이 없는 데이터를 허용하는 수준을 뜻한다. 트랜잭션 작업 시 무조건적인 Locking으로 처리하면 DB의 성능이 떨어지기때문에 효율적인 Locking 방법을 찾는 것이 Isolation Level의 목적이다.
+
+
+
+1. Level 0 : Read Uncommitted
+   - SELECT 문장이 수행되는 동안 해당 데이터에 shared lock이 걸리지 않는 level. 
+   - 사용자1이 데이터를 변경하는동안 사용자2는 아직 완료되지 않은 트랜잭션이지만 변경된 데이터를 읽을 수 있다.
+   - 데이터베이스의 일관성을 유지할 수 없다.
+2. Level 1 : Read committed
+   - **SELECT 문장이 수행되는 동안** 해당 데이터에 shared lock이 걸리는 level.
+   - Commit이 이루어진 트랜잭션만 조회할 수 있다.
+   - SQL Server의 default.
+3. Level 2 : Repeatable Read
+   - **트랜잭션이 완료될 때까지** SELECT 문장이 사용하는 모든 데이터에 shared lock이 걸리는 level.
+   - 다른 사용자는 해당 영역 데이터에 대한 수정이 불가능하다.
+4. Level 3 : Serializable
+   - 트랜잭션이 완료될 때까지 SELECT 문장이 사용하는 모든 데이터에 shared lock이 걸리는 level.
+   - 완벽한 읽기 일관성 모드를 제공한다.
+   - 다른 사용자는 해당 영역 데이터에 대한 수정 및 입력이 불가능하다.
+
+
+
+Isolation Level 조정은 동시성 증가와 무결성의 문제 사이 균형이 중요하다. 또한 Level이 높아질수록 비용이 높아진다. 
+
+
+
+
 
 
 
